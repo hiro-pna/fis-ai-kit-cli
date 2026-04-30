@@ -1,0 +1,47 @@
+# FIS AI Kit consumer .npmrc — copy to .npmrc in your project root
+# Tells npm where to find @fis/* packages.
+#
+# Pick ONE block below based on where the kit is hosted, then:
+#   1. Set the env var(s) in your shell rc (~/.zshrc, ~/.bashrc, ~/.profile)
+#   2. cp .npmrc.example .npmrc
+#   3. echo ".npmrc" >> .gitignore  (the file references env-vars, but be safe)
+#
+# After setup:
+#   npx @fis/ai-kit init && npx @fis/ai-kit install
+#
+# ============================================================================
+# Block A — GitLab Enterprise (gitlab.fis.vn) — DEFAULT for FIS team
+# ============================================================================
+# Project: https://gitlab.fis.vn/fis-ai-first/fis-ai-kit
+# Replace PROJECT_ID with the numeric ID from
+#   GitLab → fis-ai-kit project → Settings → General → top of page (số sau tên dự án).
+#
+# Token: GitLab PAT với scope `read_api` (consumers) hoặc `write_api` (publisher).
+#   https://gitlab.fis.vn/-/user_settings/personal_access_tokens
+# Env:   export GITLAB_TOKEN=glpat_xxxxx
+
+@fis:registry=https://gitlab.fis.vn/api/v4/projects/PROJECT_ID/packages/npm/
+//gitlab.fis.vn/api/v4/projects/PROJECT_ID/packages/npm/:_authToken=${GITLAB_TOKEN}
+always-auth=true
+
+# Group-level alternative (cho nhiều project share cùng scope @fis):
+# Group: https://gitlab.fis.vn/fis-ai-first  → group ID ở Settings → General
+# @fis:registry=https://gitlab.fis.vn/api/v4/groups/GROUP_ID/-/packages/npm/
+# //gitlab.fis.vn/api/v4/groups/GROUP_ID/-/packages/npm/:_authToken=${GITLAB_TOKEN}
+
+# ============================================================================
+# Block B — GitHub Packages (alternative)
+# ============================================================================
+# Token: PAT (classic) với scope `read:packages`.
+#   https://github.com/settings/tokens/new?scopes=read:packages
+# Env:   export GITHUB_PACKAGES_TOKEN=ghp_xxxxx
+#
+# @fis:registry=https://npm.pkg.github.com
+# //npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_TOKEN}
+# always-auth=true
+
+# ============================================================================
+# Block C — Self-hosted Verdaccio (nếu FIS dựng riêng)
+# ============================================================================
+# @fis:registry=https://npm.fis.internal/
+# //npm.fis.internal/:_authToken=${VERDACCIO_TOKEN}

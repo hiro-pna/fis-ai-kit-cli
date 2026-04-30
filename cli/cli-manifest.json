@@ -1,0 +1,49 @@
+{
+  "name": "fis-cli",
+  "version": "0.1.0",
+  "description": "FIS AI Kit CLI for SDLC artifact management",
+  "commands": [
+    {
+      "name": "init",
+      "description": "Scaffold project artifact directories",
+      "args": [
+        { "name": "--target", "type": "path", "description": "Target directory (default: cwd)" }
+      ]
+    },
+    {
+      "name": "install",
+      "description": "Copy claude/, templates/ into current project",
+      "args": [
+        { "name": "--force", "type": "flag", "description": "Overwrite existing files" }
+      ]
+    },
+    {
+      "name": "update",
+      "description": "Pull latest kit, preserve user changes (TODO)"
+    },
+    {
+      "name": "doctor",
+      "description": "Health check artifacts + skills + rules + hooks"
+    },
+    {
+      "name": "reconcile",
+      "description": "Detect status drift, suggest/apply fix",
+      "args": [
+        { "name": "--fix", "type": "flag", "description": "Interactive fix mode" },
+        { "name": "--plan-waves", "type": "flag", "description": "Wave analysis for parallel impl" }
+      ]
+    },
+    {
+      "name": "app",
+      "description": "Launch web dashboard at http://localhost:3456 (TODO)"
+    },
+    {
+      "name": "three-amigos",
+      "description": "Trigger Three Amigos consultation",
+      "args": [
+        { "name": "type", "type": "string", "values": ["prd", "trd", "epic", "story", "test-spec"] },
+        { "name": "id", "type": "string", "description": "Artifact ID e.g. PRD-0001" }
+      ]
+    }
+  ]
+}

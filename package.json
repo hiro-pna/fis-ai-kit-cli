@@ -1,0 +1,71 @@
+{
+  "name": "@hiro-pna/fis-ai-kit-cli",
+  "version": "0.2.0",
+  "description": "FIS AI Kit CLI — public binary for installing the FIS hybrid SDLC kit (BA/SA/DEV/QA artifact-as-contract workflow). Kit content fetched separately via --from <git-url>.",
+  "keywords": [
+    "fis",
+    "ai-kit",
+    "sdlc",
+    "ba",
+    "sa",
+    "dev",
+    "tester",
+    "three-amigos",
+    "claude-code",
+    "claude-cowork",
+    "cursor",
+    "codex",
+    "java-spring",
+    "csharp-dotnet",
+    "react"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "FIS AI Team",
+    "email": "ai-kit@fpt.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiro-pna/fis-ai-kit-cli.git"
+  },
+  "homepage": "https://github.com/hiro-pna/fis-ai-kit-cli#readme",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "bin": {
+    "fis": "./cli/bin/fis.js",
+    "fis-ai-kit-cli": "./cli/bin/fis.js"
+  },
+  "files": [
+    "cli/bin/",
+    "cli/dist/",
+    "cli/scripts/",
+    "cli/cli-manifest.json",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "dev": "cd cli && bun run src/index.ts",
+    "build": "esbuild cli/src/index.ts --bundle --platform=node --format=esm --outfile=cli/dist/index.js --external:yaml --external:kleur",
+    "build:bun": "cd cli && bun build src/index.ts --outdir dist --target node --format esm",
+    "prepublishOnly": "npm run build && npm pack --dry-run",
+    "test": "cd cli && bun test",
+    "smoke": "node cli/bin/fis.js --version || node cli/bin/fis.js doctor",
+    "lint": "cd cli && biome check . || true",
+    "validate-skills": "node cli/scripts/check-skill-cross-refs.cjs"
+  },
+  "dependencies": {
+    "yaml": "^2.4.0",
+    "kleur": "^4.1.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.21.0",
+    "typescript": "^5.0.0"
+  }
+}
