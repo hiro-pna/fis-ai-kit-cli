@@ -22,7 +22,7 @@ import { updateCommand } from './commands/update.js'
 import { skillsCommand } from './commands/skills.js'
 import { setupCommand } from './commands/setup.js'
 
-const VERSION = '0.2.3'
+const VERSION = '0.2.4'
 
 function printHelp() {
   console.log(`fis-cli v${VERSION} — FIS AI Kit

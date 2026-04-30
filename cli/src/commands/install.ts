@@ -206,5 +206,5 @@ export async function installCommand(args: string[]): Promise<void> {
   if (preserved > 0) {
     console.log(`   Pass --force to overwrite preserved sources.`)
   }
-  console.log(`Next: Read CLAUDE.md, then /fis:ba:manage-personas to start`)
+  console.log(`Next: Read CLAUDE.md, then ask Claude to "set up the Three Amigos personas" to start`)
 }

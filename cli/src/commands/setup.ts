@@ -234,7 +234,7 @@ export async function setupCommand(args: string[]): Promise<void> {
 
   // 9. Write enriched .fisrc.json (overrides init's basic version)
   writeFisrc(target, {
-    version: '0.2.3',
+    version: '0.2.4',
     project: {
       name: projectName,
       mode: projectMode as 'greenfield' | 'brownfield',
@@ -254,28 +254,35 @@ export async function setupCommand(args: string[]): Promise<void> {
   console.log('  fis doctor                          # verify install')
   console.log('  fis skills                          # browse available skills\n')
 
+  console.log('How to use the kit:')
+  console.log('  Skills load automatically from .claude/skills/ via SKILL.md frontmatter.')
+  console.log('  Open Claude Code in this directory and ask in natural language —')
+  console.log('  Claude will activate the matching FIS skill based on your request.\n')
+
   if (projectMode === 'greenfield') {
-    console.log('Greenfield workflow (Create mode):')
-    console.log('  /fis:ba:manage-personas             # define Three Amigos team + stakeholders')
-    console.log('  /fis:ba:create-prd "Feature X"      # write first PRD')
-    console.log('  /fis:three-amigos:review-prd PRD-0001')
-    console.log('  /fis:ba:approve-prd --to approved')
-    console.log('  /fis:sa:design-trd PRD-0001         # SA architecture work')
+    console.log('Greenfield workflow (Create mode) — example prompts:')
+    console.log('  "Help me set up the Three Amigos team and stakeholders"        → manage-personas')
+    console.log('  "Create a PRD for [feature X]"                                  → create-prd')
+    console.log('  "Run Three Amigos review on PRD-0001"                           → three-amigos review')
+    console.log('  "Approve PRD-0001"                                              → approve-prd')
+    console.log('  "Design the TRD for PRD-0001"                                   → design-trd')
     console.log('  ... continue BA → SA → DEV → QA chain')
   } else {
-    console.log('Brownfield workflow (Generate mode):')
-    console.log('  /fis:sa:generate-trd --codebase ./src      # reverse-engineer TRD')
-    console.log('  /fis:ba:generate-prd --trd TRD-0001         # derive PRD from TRD + code')
-    console.log('  /fis:qa:generate-test-spec --story US-XXXX  # extract test spec from existing tests')
+    console.log('Brownfield workflow (Generate mode) — example prompts:')
+    console.log('  "Reverse-engineer a TRD from the codebase at ./src"             → generate-trd')
+    console.log('  "Derive a PRD from TRD-0001 and the source"                     → generate-prd')
+    console.log('  "Extract a test spec for story US-XXXX from existing tests"     → generate-test-spec')
     console.log('  ⚠ Brownfield Approve requires contract test 100% pass')
   }
 
   if (techStack === 'java-spring') {
-    console.log('\nStack helper: /fis:dev:stack:java-spring (activate during /fis:dev:plan)')
+    console.log('\nStack helper: ask Claude to "use the java-spring stack skill" during planning.')
   } else if (techStack === 'csharp-dotnet') {
-    console.log('\nStack helper: /fis:dev:stack:csharp-dotnet (activate during /fis:dev:plan)')
+    console.log('\nStack helper: ask Claude to "use the csharp-dotnet stack skill" during planning.')
   } else if (techStack === 'react') {
-    console.log('\nStack helper: /fis:dev:stack:react (activate during /fis:dev:plan)')
+    console.log('\nStack helper: ask Claude to "use the react stack skill" during planning.')
   }
-  console.log('')
+  console.log('\nNote: `/fis:*` slash-command syntax requires installing the kit as a')
+  console.log('Claude Code plugin via /plugin marketplace. File-based install (this flow)')
+  console.log('uses skill auto-discovery — natural language prompts work best.\n')
 }
