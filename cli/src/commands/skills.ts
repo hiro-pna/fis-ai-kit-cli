@@ -97,10 +97,10 @@ function printTable(entries: SkillEntry[]) {
 
 export async function skillsCommand(args: string[]): Promise<void> {
   const target = process.cwd()
-  const skillsDir = join(target, 'claude', 'skills')
+  const skillsDir = join(target, '.claude', 'skills')
 
   if (!existsSync(skillsDir)) {
-    console.error('❌ claude/skills/ not found in current project.')
+    console.error('❌ .claude/skills/ not found in current project.')
     console.error('   Run `fis install --from <git-url>` first.')
     process.exit(1)
   }

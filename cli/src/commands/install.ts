@@ -142,12 +142,17 @@ export async function installCommand(args: string[]): Promise<void> {
   }
   console.log(`Target: ${target}`)
 
-  // Sources to copy
+  // Sources to copy from kit root → target project.
+  // Note: kit repo stores `claude/` (no leading dot — git-friendly), but Claude
+  // Code reads from `.claude/` in user projects. Rename during copy so settings.json,
+  // hooks, skills, agents land where Claude Code looks for them.
   const sources = [
-    { src: 'claude', dest: 'claude' },
+    { src: 'claude', dest: '.claude' },
     { src: 'templates', dest: 'templates' },
     { src: 'CLAUDE.md', dest: 'CLAUDE.md' },
     { src: '.claude-plugin', dest: '.claude-plugin' },
+    { src: '.cursor-plugin', dest: '.cursor-plugin' },
+    { src: '.codex-plugin', dest: '.codex-plugin' },
   ]
 
   // Build registry of file checksums

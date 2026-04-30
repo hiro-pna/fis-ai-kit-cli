@@ -28,8 +28,8 @@ export async function doctorCommand(_args: string[]): Promise<void> {
   // Check artifact directories
   const requiredDirs = [
     'artifacts/prd', 'artifacts/trd', 'artifacts/stories',
-    'artifacts/test-specs', 'claude/skills', 'claude/agents',
-    'claude/rules', 'claude/hooks',
+    'artifacts/test-specs', '.claude/skills', '.claude/agents',
+    '.claude/rules', '.claude/hooks',
     'templates/core', 'templates/modules', 'templates/personas',
     'templates/automation', 'templates/plans', 'templates/exports/web',
   ]
@@ -76,7 +76,7 @@ export async function doctorCommand(_args: string[]): Promise<void> {
   // Check skill packs
   const skillPacks = ['ba', 'sa', 'dev', 'qa', 'cross']
   for (const pack of skillPacks) {
-    const packDir = join(target, 'claude', 'skills', pack)
+    const packDir = join(target, '.claude', 'skills', pack)
     if (existsSync(packDir)) {
       const skills = readdirSync(packDir).filter(d =>
         existsSync(join(packDir, d, 'SKILL.md'))
@@ -101,7 +101,7 @@ export async function doctorCommand(_args: string[]): Promise<void> {
     'three-amigos-protocol.md', 'orchestration-protocol.md', 'development-rules.md',
   ]
   for (const rule of requiredRules) {
-    const exists = existsSync(join(target, 'claude', 'rules', rule))
+    const exists = existsSync(join(target, '.claude', 'rules', rule))
     checks.push({
       name: `Rule: ${rule}`,
       status: exists ? 'pass' : 'fail',
@@ -114,7 +114,7 @@ export async function doctorCommand(_args: string[]): Promise<void> {
     'skill-dedup.cjs', 'dev-rules-reminder.cjs', 'notification.cjs',
   ]
   for (const hook of requiredHooks) {
-    const exists = existsSync(join(target, 'claude', 'hooks', hook))
+    const exists = existsSync(join(target, '.claude', 'hooks', hook))
     checks.push({
       name: `Hook: ${hook}`,
       status: exists ? 'pass' : 'warn',
