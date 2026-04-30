@@ -137,7 +137,7 @@ export async function setupCommand(args: string[]): Promise<void> {
       ? await askChoice(
           'Primary tech stack?',
           [
-            { value: 'java-spring', label: 'Java + Spring Boot 3' },
+            { value: 'java-spring', label: 'Java + Spring Boot' },
             { value: 'csharp-dotnet', label: 'C# + .NET 8' },
             { value: 'react', label: 'React (frontend or full-stack)' },
             { value: 'mixed', label: 'Mixed / multiple stacks' },
@@ -234,7 +234,7 @@ export async function setupCommand(args: string[]): Promise<void> {
 
   // 9. Write enriched .fisrc.json (overrides init's basic version)
   writeFisrc(target, {
-    version: '0.2.2',
+    version: '0.2.3',
     project: {
       name: projectName,
       mode: projectMode as 'greenfield' | 'brownfield',
