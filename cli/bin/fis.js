@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import('../dist/index.js').catch((err) => {
+import('../bundle/index.js').catch((err) => {
   if (err.code === 'ERR_MODULE_NOT_FOUND') {
     // Dev mode fallback — run TypeScript source directly
     import('../src/index.ts').catch((err2) => {
