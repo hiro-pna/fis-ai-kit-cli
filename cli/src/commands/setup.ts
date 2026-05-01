@@ -92,7 +92,16 @@ interface FisrcConfig {
     ref: string
   }
   handoff_gate: { enabled: boolean }
-  three_amigos: { async_sla_hours: number }
+  three_amigos: {
+    team_size: number              // 1 = solo mode (auto-sign all 3 amigos); ≥2 = real team
+    mode: 'auto' | 'sync' | 'async'
+    async_sla_hours: number
+  }
+  automation: {
+    auto_chain: boolean             // skill end auto-prompts next skill
+    auto_detect_id: boolean         // skip --id arg if only 1 candidate
+    auto_approve_solo: boolean      // team_size=1 → auto-sign Three Amigos
+  }
 }
 
 function writeFisrc(target: string, cfg: FisrcConfig): void {
@@ -233,8 +242,10 @@ export async function setupCommand(args: string[]): Promise<void> {
   await installCommand(['--from', kitUrl, '--ref', kitRef])
 
   // 9. Write enriched .fisrc.json (overrides init's basic version)
+  // Default to solo mode (team_size=1) — most projects start solo.
+  // User can edit .fisrc.json later to bump team_size for real team workflow.
   writeFisrc(target, {
-    version: '0.2.4',
+    version: '0.2.5',
     project: {
       name: projectName,
       mode: projectMode as 'greenfield' | 'brownfield',
@@ -243,7 +254,16 @@ export async function setupCommand(args: string[]): Promise<void> {
     },
     kit: { source: kitUrl, ref: kitRef },
     handoff_gate: { enabled: true },
-    three_amigos: { async_sla_hours: 24 },
+    three_amigos: {
+      team_size: 1,
+      mode: 'auto',
+      async_sla_hours: 24,
+    },
+    automation: {
+      auto_chain: true,
+      auto_detect_id: true,
+      auto_approve_solo: true,
+    },
   })
 
   // 10. Mode-specific next steps
