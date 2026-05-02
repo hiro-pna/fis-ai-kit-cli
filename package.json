@@ -1,6 +1,6 @@
 {
   "name": "fis-ai-kit-cli",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "FIS AI Kit CLI — public binary for installing the FIS hybrid SDLC kit (BA/SA/DEV/QA artifact-as-contract workflow). Kit content fetched separately via --from <git-url>.",
   "keywords": [
     "fis",

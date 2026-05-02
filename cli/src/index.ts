@@ -22,7 +22,7 @@ import { updateCommand } from './commands/update.js'
 import { skillsCommand } from './commands/skills.js'
 import { setupCommand } from './commands/setup.js'
 
-const VERSION = '0.2.5'
+const VERSION = '0.2.6'
 
 function printHelp() {
   console.log(`fis-cli v${VERSION} — FIS AI Kit
@@ -31,31 +31,37 @@ USAGE:
   fis <command> [options]
 
 COMMANDS:
-  setup                Interactive wizard: configure source, init + install
-  init                 Scaffold project artifact directories
+  setup                One-command wizard (recommended for first-time install)
+  init                 Scaffold artifact directories only
   install              Install kit (claude/, templates/) into current project
   update               Re-fetch kit from recorded source
   skills [query]       List/search skills available in installed kit
   doctor               Health check artifacts + skill registry
-  reconcile [--fix]    Detect status drift, suggest fix
+  reconcile [--fix]    Detect artifact status drift, suggest fix
   app                  Launch web dashboard (TODO v0.3)
   three-amigos <type> <id>   Trigger consultation (prd|trd|story|test-spec)
 
+SETUP MODES:
+  fis setup            # Smart wizard — 1-2 prompts, defaults auto-detected
+  fis setup --quick    # Zero prompts, all defaults — fastest install
+  fis setup --advanced # Full control: custom kit URL, .npmrc, GitLab registry
+  fis setup --reinstall    # Re-run setup if .fisrc.json đã tồn tại
+
 OPTIONS:
-  --version            Show version
-  --help               Show help
+  --version, -v        Show version
+  --help, -h           Show help
 
 EXAMPLES:
-  fis init                                 # Scaffold artifacts/, plans/, docs/
-  fis install                              # Copy bundled kit into current project
-  fis install --from <git-url> --ref main  # Fetch private kit content (GitLab/GitHub)
-  fis install --refresh                    # Re-clone cached remote kit
-  fis reconcile --fix                      # Detect + guided fix drift
+  npx fis-ai-kit-cli setup            # Recommended: smart wizard
+  npx fis-ai-kit-cli setup --quick    # CI / fast install with defaults
+  fis init                            # Scaffold artifacts/, plans/, docs/
+  fis install --refresh               # Re-clone cached remote kit
+  fis reconcile --fix                 # Detect + guided fix drift
   fis three-amigos prd PRD-0001
 
 REMOTE INSTALL ENV:
   FIS_KIT_TOKEN       OAuth2 token for HTTPS git clone (GitLab PAT, GitHub PAT)
-                      Not needed for SSH URLs (uses SSH key on disk)
+                      Auto-skipped if kit URL is public / SSH
 `)
 }
 
