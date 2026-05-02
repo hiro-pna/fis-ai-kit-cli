@@ -29,9 +29,9 @@ import { installCommand } from './install.js'
 import { doctorCommand } from './doctor.js'
 import { printBanner } from '../lib/banner.js'
 
-const DEFAULT_KIT_URL = 'https://gitlab.fis.vn/fis-ai-first/fis-ai-kit.git'
-const DEFAULT_KIT_REF = 'main'
-const FISRC_VERSION = '0.2.6'
+const DEFAULT_KIT_URL = process.env.FIS_KIT_SOURCE || ''
+const DEFAULT_KIT_REF = process.env.FIS_KIT_REF || 'main'
+const FISRC_VERSION = '0.2.7'
 
 // ── Prompt helpers ──────────────────────────────────────────────────────────
 
@@ -259,9 +259,28 @@ export async function setupCommand(args: string[]): Promise<void> {
     )
   }
 
-  // 4. Kit source — only ask in --advanced mode, else use default
-  const kitUrl = flags.kitUrl ?? (advanced ? await ask('Kit Git URL', DEFAULT_KIT_URL) : DEFAULT_KIT_URL)
-  const kitRef = flags.kitRef ?? (advanced ? await ask('Kit branch/tag', DEFAULT_KIT_REF) : DEFAULT_KIT_REF)
+  // 4. Kit source — required. Resolve in priority: flag → env (FIS_KIT_SOURCE) → prompt.
+  let kitUrl = flags.kitUrl ?? DEFAULT_KIT_URL
+  if (!kitUrl) {
+    if (quick) {
+      console.error(
+        '\n❌ Kit URL không có. Cấp 1 trong các cách:\n' +
+          '   1) Pass --kit-url <git-url>\n' +
+          '   2) Export FIS_KIT_SOURCE=<git-url> trước khi chạy setup\n' +
+          '   3) Drop --quick để wizard hỏi tương tác\n'
+      )
+      process.exit(1)
+    }
+    kitUrl = await ask('Kit Git URL (HTTPS hoặc SSH)')
+    if (!kitUrl) {
+      console.error('Kit URL bắt buộc. Aborted.')
+      process.exit(1)
+    }
+  }
+  let kitRef = flags.kitRef ?? DEFAULT_KIT_REF
+  if (advanced && !flags.kitRef) {
+    kitRef = await ask('Kit branch/tag', kitRef) || kitRef
+  }
 
   // 5. .npmrc — only in --advanced mode
   if (advanced && !quick) {
@@ -367,7 +386,7 @@ export async function setupCommand(args: string[]): Promise<void> {
 // ── Optional .npmrc helper (advanced mode only) ─────────────────────────────
 
 async function maybeWriteNpmrc(target: string, flags: SetupArgs): Promise<void> {
-  const registryHost = flags.registryHost ?? (await ask('GitLab host', 'gitlab.fis.vn'))
+  const registryHost = flags.registryHost ?? (await ask('GitLab host (vd gitlab.example.com)'))
   const projectId = flags.registryProjectId ?? (await ask('GitLab project ID (Settings → General)'))
   if (!registryHost || !projectId) {
     console.log('  ⏭ Missing host or project ID, skipping .npmrc.')

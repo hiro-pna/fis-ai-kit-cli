@@ -7,11 +7,16 @@ The kit content (skills, agents, templates, hooks) lives in a **separate private
 ## Quick start
 
 ```bash
+# Set kit source (one-time, or via .fisrc.json):
+export FIS_KIT_SOURCE=<your-kit-git-url>
+
 # Zero config — works in any project:
-npx fis-ai-kit-cli setup --kit-url https://gitlab.fis.vn/fis-ai-first/fis-ai-kit.git
+npx fis-ai-kit-cli setup
 ```
 
-That's it. The wizard scaffolds `artifacts/`, fetches the private kit content (with `FIS_KIT_TOKEN` env if HTTPS), runs doctor.
+That's it. The wizard scaffolds `artifacts/`, fetches kit content (with `FIS_KIT_TOKEN` env if HTTPS private), runs doctor.
+
+You can also pass the URL inline: `npx fis-ai-kit-cli setup --kit-url <git-url>`.
 
 ## Prerequisites
 
@@ -34,12 +39,12 @@ That's it. The wizard scaffolds `artifacts/`, fetches the private kit content (w
 ## Manual install (no wizard)
 
 ```bash
-export FIS_KIT_TOKEN=glpat_xxx   # GitLab PAT with read_repository scope
+export FIS_KIT_TOKEN=<your-pat-token>   # GitLab/GitHub PAT with read_repository / repo scope
 mkdir my-project && cd my-project
 npx fis-ai-kit-cli init
-npx fis-ai-kit-cli install --from https://gitlab.fis.vn/fis-ai-first/fis-ai-kit.git
+npx fis-ai-kit-cli install --from <your-kit-git-url>
 npx fis-ai-kit-cli doctor
-# Expect: 51 pass / 0 warnings / 0 failures
+# Expect: pass / no failures
 ```
 
 ## Auth modes for private kit
